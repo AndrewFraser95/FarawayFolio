@@ -1,38 +1,35 @@
 [
   {
-    "id": "balcony-golden-hour",
-    "prompt": "A balcony scene at golden hour, linen curtains blowing gently, a coastal town visible in the soft-focus distance, quiet luxury travel aesthetic, warm neutral tones",
-    "caption": "Some mornings just ask you to slow down.",
-    "pick": "the Weekender Case"
+    "id": "slow-mornings",
+    "pick": "the Weekender Case",
+    "caption": "Some mornings just ask you to slow down. This one started on a balcony, ended by the pool, and never really rushed anywhere in between.\n\nThe weekender case made the trip painless, which might be the whole point.\n\nMore on the site, link's in the bio.\n.\n.\n.\n#quietluxury #travelaesthetic #slowtravel #europeansummer #travelinspo",
+    "images": [
+      "A balcony scene at golden hour, linen curtains blowing gently, a coastal town visible in the soft-focus distance, quiet luxury travel aesthetic, warm neutral tones",
+      "Boutique hotel room interior, warm neutral tones, soft morning light through sheer curtains, an open suitcase styled aesthetically on a linen bed, quiet luxury",
+      "Poolside at a quiet luxury resort, folded towel on a sun lounger, single potted palm, soft midday light, muted warm tones, minimal composition",
+      "A coastal town rooftop view, warm terracotta rooftops, soft afternoon haze, distant sea, quiet luxury travel aesthetic, warm golden tones"
+    ]
   },
   {
-    "id": "boutique-hotel-room",
-    "prompt": "Boutique hotel room interior, warm neutral tones, soft morning light through sheer curtains, an open suitcase styled aesthetically on a linen bed, quiet luxury",
-    "caption": "Unpacking is half the ritual.",
-    "pick": "the Passport Folio"
+    "id": "on-the-move",
+    "pick": "the Passport Folio",
+    "caption": "Somewhere new always starts with a boarding pass and bad coffee. A table, a platform, a gate, going somewhere or coming back.\n\nThe passport folio just keeps it all in one place.\n\nMore on the site, link's in the bio.\n.\n.\n.\n#quietluxury #travelaesthetic #slowtravel #europeansummer #travelinspo",
+    "images": [
+      "A small cafe table scene, espresso cup, sunglasses resting on a folded passport, blurred cobblestone street in the background, warm afternoon light",
+      "A vintage train platform, departure board softly blurred, traveler silhouette walking away, warm soft film grain, golden light",
+      "Close-up of a leather passport holder with a boarding pass tucked inside, resting on warm linen, soft natural light, centered composition, quiet luxury travel aesthetic",
+      "Airport lounge window seat, golden hour light streaming in, a boarding pass resting on the armrest, quiet luxury travel aesthetic, warm tones"
+    ]
   },
   {
-    "id": "cafe-table",
-    "prompt": "A small cafe table scene, espresso cup, sunglasses resting on a folded passport, blurred cobblestone street in the background, warm afternoon light",
-    "caption": "Ten minutes, one espresso, no notifications.",
-    "pick": "the Linen Travel Set"
-  },
-  {
-    "id": "poolside-resort",
-    "prompt": "Poolside at a quiet luxury resort, folded towel on a sun lounger, single potted palm, soft midday light, muted warm tones, minimal composition",
-    "caption": "The kind of quiet you have to travel for.",
-    "pick": "the Weekender Case"
-  },
-  {
-    "id": "train-platform",
-    "prompt": "A vintage train platform, departure board softly blurred, traveler silhouette walking away, warm soft film grain, golden light",
-    "caption": "Somewhere new always starts with a platform like this.",
-    "pick": "the Passport Folio"
-  },
-  {
-    "id": "market-street",
-    "prompt": "A warm afternoon market street scene, woven bags and textiles on display, dappled sunlight, muted warm color palette, quiet luxury travel aesthetic",
-    "caption": "Souvenirs, but make them considered.",
-    "pick": "the Linen Travel Set"
+    "id": "market-finds",
+    "pick": "the Linen Travel Set",
+    "caption": "Souvenirs, but make them considered. A market morning, mostly, the kind where you end up carrying more woven bags than you planned.\n\nThe linen travel set survives all of it, wrinkles and all.\n\nMore on the site, link's in the bio.\n.\n.\n.\n#quietluxury #travelaesthetic #slowtravel #europeansummer #travelinspo",
+    "images": [
+      "A warm afternoon market street scene, woven bags and textiles on display, dappled sunlight, muted warm color palette, quiet luxury travel aesthetic",
+      "Woven straw travel bag handle close-up against a warm cream background, soft natural light, centered composition, quiet luxury minimalist aesthetic",
+      "Folded linen fabric draped over a wooden chair, warm afternoon light through a window, soft shadows, quiet luxury minimalist aesthetic",
+      "A narrow cobblestone street at golden hour, warm terracotta walls, wooden shutters, soft light and long shadows, quiet luxury travel aesthetic"
+    ]
   }
 ]

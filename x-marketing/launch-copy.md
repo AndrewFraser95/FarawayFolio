@@ -1,5 +1,7 @@
 # X (Twitter) launch copy, Faraway Folio
 
+**Status: retired 2026-09-14.** X's API moved to pay-per-use by default in Feb 2026 and media upload was blocked without paid billing — not worth the cost right now. This file is kept for reference in case X gets revisited later; not in active use.
+
 ## Pinned intro post
 ```
 New project: Faraway Folio.

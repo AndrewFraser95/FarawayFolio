@@ -56,10 +56,30 @@ def api_get(path, params):
         return json.loads(resp.read())
 
 
-def create_container(ig_user_id, access_token, image_url, caption):
-    result = api_post(f"{ig_user_id}/media", {"image_url": image_url, "caption": caption, "access_token": access_token})
+def create_container(ig_user_id, access_token, image_url, caption=None, is_carousel_item=False):
+    params = {"image_url": image_url, "access_token": access_token}
+    if caption:
+        params["caption"] = caption
+    if is_carousel_item:
+        params["is_carousel_item"] = "true"
+    result = api_post(f"{ig_user_id}/media", params)
     if "id" not in result:
         raise RuntimeError(f"Failed to create media container: {result}")
+    return result["id"]
+
+
+def create_carousel_container(ig_user_id, access_token, child_ids, caption):
+    result = api_post(
+        f"{ig_user_id}/media",
+        {
+            "media_type": "CAROUSEL",
+            "children": ",".join(child_ids),
+            "caption": caption,
+            "access_token": access_token,
+        },
+    )
+    if "id" not in result:
+        raise RuntimeError(f"Failed to create carousel container: {result}")
     return result["id"]
 
 
@@ -91,13 +111,35 @@ def post_to_instagram(image_url, caption):
     return media_id
 
 
+def post_carousel_to_instagram(image_urls, caption):
+    """Post 2-10 images as a single Instagram carousel post."""
+    if not (2 <= len(image_urls) <= 10):
+        raise ValueError(f"Instagram carousels need 2-10 images, got {len(image_urls)}")
+    ig_user_id, access_token = get_creds()
+
+    child_ids = []
+    for url in image_urls:
+        child_id = create_container(ig_user_id, access_token, url, is_carousel_item=True)
+        wait_for_container_ready(child_id, access_token)
+        child_ids.append(child_id)
+
+    carousel_id = create_carousel_container(ig_user_id, access_token, child_ids, caption)
+    wait_for_container_ready(carousel_id, access_token)
+    media_id = publish_container(ig_user_id, access_token, carousel_id)
+    return media_id
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Post an image + caption to Instagram.")
-    parser.add_argument("--image-url", required=True, help="Public HTTPS URL of the image")
+    parser = argparse.ArgumentParser(description="Post an image (or carousel) + caption to Instagram.")
+    parser.add_argument("--image-url", action="append", dest="image_urls", required=True,
+                         help="Public HTTPS URL of an image; pass multiple times for a carousel (2-10 images)")
     parser.add_argument("--caption", required=True, help="Post caption")
     args = parser.parse_args()
 
-    media_id = post_to_instagram(args.image_url, args.caption)
+    if len(args.image_urls) == 1:
+        media_id = post_to_instagram(args.image_urls[0], args.caption)
+    else:
+        media_id = post_carousel_to_instagram(args.image_urls, args.caption)
     print(json.dumps({"media_id": media_id}, indent=2))
 
 
