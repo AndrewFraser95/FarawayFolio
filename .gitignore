@@ -6,3 +6,5 @@ content-pipeline/_publish_tmp/
 __pycache__/
 .env
 branding/*.zip
+content-pipeline/*-generation.log
+branding/gumroad-pack-volume-*/_raw/
