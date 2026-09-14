@@ -41,14 +41,29 @@ Env vars needed: `COMFYUI_HOST`, `IG_USER_ID=28615169324810269`, `IG_ACCESS_TOKE
 **GitHub push credentials**: no persistent storage (blocked by design — a classifier in this environment rejects both raw curl+Authorization-header reuse and git-credential-helper storage as unsafe patterns). Pattern in use: embed a token in the remote URL just for one push, reset to the clean URL immediately after (`publish_batch.py`'s `git_push()` does this automatically via a `GITHUB_PAT` env var; manual pushes use the same pattern by hand).
 
 ## Automation
-No scheduled/cron job — Andrew doesn't want one (a launchd job was set up and then removed on 2026-09-14 at his request). Run scripts manually (confirm the Windows ComfyUI machine is awake first — it doesn't stay on 24/7, connect via Tailscale `100.104.162.124:8188`).
+No **recurring** scheduled job — Andrew doesn't want one for regular posting (a launchd job was set up and then removed on 2026-09-14 at his request). Run scripts manually (confirm the Windows ComfyUI machine is awake first — it doesn't stay on 24/7, connect via Tailscale `100.104.162.124:8188`).
+
+**Distinct from the above**: `com.dev.faraway-folio-volumes` is a *one-shot* launchd job (not recurring, no `StartInterval`/`StartCalendarInterval`) used the night of 2026-09-14/15 to run a long, explicitly-requested overnight generation job (`content-pipeline/run_all_volumes.sh`) that needed to survive session boundaries — plain `nohup ... & disown` didn't survive the Claude Code session ending, launchd did. Safe to `launchctl bootout gui/$(id -u)/com.dev.faraway-folio-volumes` and remove the plist once that run is done; it's not meant to persist as ongoing infrastructure.
+
+## Digital products (Gumroad)
+Live storefront: https://farawayfolio.gumroad.com. Pipeline:
+- `content-pipeline/products/volume-N.json` — spec per pack (name, theme, price, list of `{id, prompt}` images, 12-15 each).
+- `content-pipeline/generate_product_pack.py --volume products/volume-N.json` — generates every image (HQ workflow), makes print (2:3 JPEG) + wallpaper (9:16 crop) versions via `sips`, writes a README, zips it. **Resumable** — skips images that already have finished JPEGs, reuses orphaned raw PNGs from an interrupted run instead of regenerating.
+- `content-pipeline/publish_volume_to_gumroad.py --volume ... --pack-dir ... --zip ...` — creates the Gumroad product (cover image, description, tags) via the `gumroad` CLI and publishes it live.
+- `content-pipeline/run_all_volumes.sh` — chains multiple volumes back-to-back.
+- Volume One (6 images, £8) also has a custom landing page (`branding/landing.html`, self-contained Tailwind + light/dark mode, published via `gumroad products page publish xtini ./landing.html`) — gallery images are deliberately low-res/watermarked previews, never the actual sellable files.
+- **Gumroad CLI**: installed via `curl -fsSL https://gumroad.com/install-cli.sh | bash`, authenticated via `gumroad auth login` (OAuth device flow, needs Andrew's browser approval). `custom_html` (landing pages) caps at 500,000 characters — keep embedded images compressed/small.
+
+## Posting workflow (continued)
+`content-pipeline/starter_content.json` + `publish_starter_content.py` — lighter single-image engagement posts (not tied to a product pack), e.g. European-city "what's your dream day in Rome?" posts. Same live-posting pattern as `publish_batch.py` (Instagram via public URL, Facebook via direct upload) but simpler, one image per post.
 
 ## Domain renewal
 4 TLDs on 1-year contracts, renewing ~2027-08-13: .info £66/yr, .store £33/yr, .com £15/yr, .uk £15/yr = **£129/yr total**. Reminder set for 2027-07-13 to decide whether to renew all four or drop to just .com — only renew what's earning its keep.
 
 ## Not yet done
-- farawayfolio.com HTTPS cert still provisioning as of 2026-09-14 (automatic via GitHub, can take up to 24h) — until it's ready, real production Instagram posts (via `publish_batch.py`'s auto-hosting flow) aren't possible; the live test above used a one-time workaround (temporarily using `andrewfraser.com`, Andrew's separate personal domain, as a test-only image host, then reverted).
+- ~~farawayfolio.com HTTPS~~ — live and confirmed as of 2026-09-15.
 - X posting blocked (403 on media upload) — needs Andrew to check his X Developer Portal plan/billing, see "Posting workflow" above.
-- No affiliate links are live — the "Shop the pick" buttons on the site are placeholders.
-- No digital product built yet.
-- Profile pictures/bios drafted (`branding/`) but not yet confirmed uploaded to every platform by Andrew (he said he had, worth a final visual check).
+- Volumes Two through Five (and their Gumroad listings) were mid-generation overnight 2026-09-14/15 — check `content-pipeline/volumes-generation.log` and `gumroad products list` for actual current status, don't assume completion from this file.
+- No real affiliate program applied to yet — the site's product cards now link to the real Gumroad packs instead (as of the overnight session), not fictional affiliate placeholders.
+- Facebook Page's own public URL isn't recorded anywhere in this repo (only the numeric `FB_PAGE_ID`) — get it via the Graph API (`GET <page-id>?fields=link`) with a fresh Page token, or from Andrew, before linking to it anywhere.
+- Profile pictures/bios drafted (`branding/`) but not reconfirmed since Andrew said he'd uploaded them.
