@@ -1,0 +1,20 @@
+{
+  "name": "Faraway Folio, Volume Five",
+  "theme": "Quiet Garden",
+  "price": "£10",
+  "images": [
+    {"id": "zen-garden", "prompt": "A raked zen sand garden with a single smooth stone, soft morning light, minimalist quiet luxury composition"},
+    {"id": "temple-gate", "prompt": "A weathered wooden temple gate at the end of a stone path, soft misty morning light, quiet luxury travel aesthetic"},
+    {"id": "cherry-blossoms", "prompt": "Cherry blossom branches against a soft pale sky, gentle petals falling, quiet luxury minimalist aesthetic"},
+    {"id": "tea-house-interior", "prompt": "Interior of a quiet tea house, tatami mats, soft natural light through paper screens, quiet luxury aesthetic"},
+    {"id": "koi-pond", "prompt": "A still koi pond with lily pads, soft dappled light, minimalist quiet luxury composition"},
+    {"id": "bamboo-forest-path", "prompt": "A path through a tall bamboo forest, soft filtered green light, quiet luxury minimalist aesthetic"},
+    {"id": "stone-lantern", "prompt": "A moss-covered stone lantern in a quiet garden, soft morning light, minimalist quiet luxury composition"},
+    {"id": "wooden-bridge-garden", "prompt": "A small red wooden bridge over a still garden pond, soft autumn light, quiet luxury travel aesthetic"},
+    {"id": "tea-ceremony-table", "prompt": "A low wooden table set for tea, warm natural light, minimalist quiet luxury aesthetic"},
+    {"id": "moss-garden-steps", "prompt": "Stone steps through a moss garden, soft filtered light, quiet luxury minimalist aesthetic"},
+    {"id": "paper-lanterns-evening", "prompt": "Paper lanterns glowing softly in a garden at dusk, warm quiet light, quiet luxury travel aesthetic"},
+    {"id": "mountain-temple-view", "prompt": "A distant temple pagoda seen across a misty valley, soft morning light, quiet luxury travel aesthetic"},
+    {"id": "autumn-maple-courtyard", "prompt": "A quiet courtyard with a maple tree in autumn colors, soft warm light, quiet luxury minimalist aesthetic"}
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Faraway Folio, Volume Four",
+  "theme": "Desert Kasbah",
+  "price": "£10",
+  "images": [
+    {"id": "riad-courtyard", "prompt": "A quiet Moroccan riad courtyard with a small tiled fountain, warm afternoon light, potted palms, quiet luxury travel aesthetic"},
+    {"id": "desert-dunes", "prompt": "Rolling desert sand dunes at golden hour, soft long shadows, minimalist composition, quiet luxury travel aesthetic"},
+    {"id": "souk-lanterns", "prompt": "A narrow souk market alley with hanging brass lanterns, warm evening light, quiet luxury travel aesthetic"},
+    {"id": "tiled-fountain", "prompt": "Close-up of an ornate blue and white tiled fountain, dappled afternoon light, quiet luxury travel aesthetic"},
+    {"id": "camel-silhouette", "prompt": "A camel caravan silhouette crossing desert dunes at sunset, warm golden light, minimalist quiet luxury composition"},
+    {"id": "kasbah-walls", "prompt": "Sun-baked kasbah walls with an ornate wooden door, warm terracotta tones, quiet luxury travel aesthetic"},
+    {"id": "desert-tent-interior", "prompt": "Interior of a luxury desert tent, warm textiles and low seating, soft lantern light, quiet luxury aesthetic"},
+    {"id": "rooftop-terrace-desert", "prompt": "A Moroccan rooftop terrace at dusk, string lights, distant desert hills, warm quiet luxury travel aesthetic"},
+    {"id": "spice-market-stall", "prompt": "A market stall with mounded spices in warm earth tones, soft natural light, quiet luxury travel aesthetic"},
+    {"id": "desert-oasis-palms", "prompt": "A desert oasis with tall palm trees and still water, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "mint-tea-table", "prompt": "A low brass table set with mint tea glasses, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "desert-star-sky", "prompt": "A desert campsite at dusk under a vast darkening sky, warm firelight glow, minimalist quiet luxury composition"},
+    {"id": "arched-doorway", "prompt": "A whitewashed archway doorway framing a view of distant desert hills, warm golden light, quiet luxury travel aesthetic"}
+  ]
+}

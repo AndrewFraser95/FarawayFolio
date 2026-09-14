@@ -1,0 +1,20 @@
+{
+  "name": "Faraway Folio, Volume Three",
+  "theme": "Alpine Retreat",
+  "price": "£10",
+  "images": [
+    {"id": "snow-cabin", "prompt": "A cozy wooden cabin exterior in snow, warm window light, pine trees, golden hour, quiet luxury travel aesthetic"},
+    {"id": "mountain-lake", "prompt": "A mountain lake reflecting snow-capped peaks, calm water, soft morning light, quiet luxury travel aesthetic"},
+    {"id": "lodge-fireplace", "prompt": "Interior of a mountain lodge with a stone fireplace, warm firelight, quiet luxury aesthetic"},
+    {"id": "pine-forest-path", "prompt": "A snow-dusted pine forest path, soft winter light, quiet luxury minimalist aesthetic"},
+    {"id": "village-rooftops", "prompt": "A mountain village rooftop view, snow-capped peaks in the distance, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "windowsill-coffee", "prompt": "A steaming cup of coffee on a cabin windowsill overlooking snowy mountains, warm morning light, quiet luxury aesthetic"},
+    {"id": "chalet-balcony", "prompt": "A wooden chalet balcony with a view of an alpine valley, soft golden hour light, quiet luxury travel aesthetic"},
+    {"id": "frozen-lake-dock", "prompt": "A frozen mountain lake with a single wooden dock, soft winter light, minimalist quiet luxury composition"},
+    {"id": "gondola-mist", "prompt": "A mountain gondola cable car ascending through mist, soft morning light, quiet luxury travel aesthetic"},
+    {"id": "reading-nook", "prompt": "A cozy reading nook by a frosted window, warm blanket, soft interior light, quiet luxury aesthetic"},
+    {"id": "summer-meadow", "prompt": "A mountain meadow with wildflowers in summer, distant snow-capped peaks, warm golden light, quiet luxury travel aesthetic"},
+    {"id": "church-steeple", "prompt": "A stone mountain church steeple against a dramatic alpine sky, quiet luxury travel aesthetic"},
+    {"id": "wooden-bridge", "prompt": "A wooden mountain bridge over a rushing stream, surrounded by pine forest, soft dappled light, quiet luxury travel aesthetic"}
+  ]
+}
