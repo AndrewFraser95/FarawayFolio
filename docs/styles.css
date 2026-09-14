@@ -7,13 +7,15 @@
   --accent-dark: #7c5636;
   --line: #e0d5c4;
   --max: 1080px;
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  font-family: 'Georgia', 'Iowan Old Style', serif;
+  font-family: var(--font-body);
   background: var(--bg);
   color: var(--ink);
   line-height: 1.6;
@@ -39,18 +41,21 @@ header.site .wrap {
 }
 
 .logo {
-  font-size: 1.4rem;
-  letter-spacing: 0.06em;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
   text-decoration: none;
-  text-transform: uppercase;
   font-weight: 600;
 }
 
 nav.site a {
+  font-family: var(--font-body);
   text-decoration: none;
-  margin-left: 24px;
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
+  margin-left: 28px;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
   color: var(--ink-soft);
 }
 
@@ -62,10 +67,12 @@ nav.site a:hover { color: var(--accent-dark); }
 }
 
 .hero h1 {
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 6vw, 4.2rem);
+  font-weight: 500;
   margin: 0 0 18px;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.005em;
+  line-height: 1.15;
 }
 
 .hero p {
@@ -108,8 +115,9 @@ section { padding: 60px 0; }
 section.alt { background: var(--bg-alt); }
 
 h2.section-title {
-  font-size: 1.7rem;
-  font-weight: 400;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
   text-align: center;
   margin: 0 0 40px;
 }
@@ -140,7 +148,7 @@ h2.section-title {
 
 .card .body { padding: 16px 18px 20px; }
 
-.card h3 { margin: 0 0 6px; font-size: 1.05rem; font-weight: 600; }
+.card h3 { font-family: var(--font-display); margin: 0 0 6px; font-size: 1.3rem; font-weight: 600; }
 
 .card p { margin: 0 0 12px; color: var(--ink-soft); font-size: 0.92rem; }
 
