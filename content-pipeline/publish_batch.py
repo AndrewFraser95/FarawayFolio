@@ -73,6 +73,28 @@ def generate_image(entry, out_dir):
     raise RuntimeError(f"No image path found in bridge output for {entry['id']}: {result.stdout}")
 
 
+def git_push(repo_root):
+    """Push using a GitHub PAT if provided (GITHUB_PAT env var), embedding it in the
+    remote URL only for the duration of this push and resetting immediately after,
+    rather than storing it persistently (keeps it out of .git/config on disk)."""
+    pat = os.environ.get("GITHUB_PAT")
+    if not pat:
+        subprocess.run(["git", "-C", repo_root, "push"], check=True)
+        return
+
+    clean_url = subprocess.run(
+        ["git", "-C", repo_root, "remote", "get-url", "origin"], capture_output=True, text=True, check=True
+    ).stdout.strip()
+    if not clean_url.startswith("https://"):
+        raise RuntimeError(f"Expected an https:// remote URL, got: {clean_url}")
+    auth_url = clean_url.replace("https://", f"https://{pat}@", 1)
+    try:
+        subprocess.run(["git", "-C", repo_root, "remote", "set-url", "origin", auth_url], check=True)
+        subprocess.run(["git", "-C", repo_root, "push"], check=True)
+    finally:
+        subprocess.run(["git", "-C", repo_root, "remote", "set-url", "origin", clean_url], check=True)
+
+
 def publish_to_media_repo(local_image_path, theme_id):
     media_dir = os.path.join(REPO_ROOT, "docs", "media", date.today().isoformat())
     os.makedirs(media_dir, exist_ok=True)
@@ -83,7 +105,7 @@ def publish_to_media_repo(local_image_path, theme_id):
     rel_path = os.path.relpath(dest_path, REPO_ROOT)
     subprocess.run(["git", "-C", REPO_ROOT, "add", rel_path], check=True)
     subprocess.run(["git", "-C", REPO_ROOT, "commit", "-m", f"Add media: {rel_path}"], check=True)
-    subprocess.run(["git", "-C", REPO_ROOT, "push"], check=True)
+    git_push(REPO_ROOT)
 
     base_url = os.environ["PUBLIC_MEDIA_BASE_URL"].rstrip("/")
     public_url = f"{base_url}/{rel_path}"

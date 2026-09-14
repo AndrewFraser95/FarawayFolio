@@ -2,10 +2,17 @@
 """
 Post an image + caption to Instagram via the Graph API (Content Publishing).
 
+Uses the Instagram API with Instagram Login (graph.instagram.com), not the older
+Facebook-Page-token flow (graph.facebook.com) — the two are different APIs with
+different base URLs and token formats (this one's tokens start with "IGAA").
+
 Requires:
-    IG_USER_ID       - the Instagram Business Account's numeric ID (from
-                        GET /me/accounts -> {page} -> instagram_business_account.id)
-    IG_ACCESS_TOKEN  - a long-lived Page access token with instagram_content_publish scope
+    IG_USER_ID       - the Instagram professional account's numeric ID (from
+                        GET https://graph.instagram.com/v21.0/me?fields=id,username)
+    IG_ACCESS_TOKEN  - an Instagram Login access token with instagram_content_publish scope.
+                        Short-lived by default (~1hr); exchange for a 60-day token via
+                        GET https://graph.instagram.com/access_token?grant_type=ig_exchange_token
+                        &client_secret=<APP_SECRET>&access_token=<TOKEN> once the app secret is available.
 
 The image must already be reachable at a public HTTPS URL (Instagram fetches it
 server-side, it does not accept direct file uploads).
@@ -23,7 +30,7 @@ import urllib.parse
 import urllib.request
 
 GRAPH_VERSION = "v21.0"
-BASE_URL = f"https://graph.facebook.com/{GRAPH_VERSION}"
+BASE_URL = f"https://graph.instagram.com/{GRAPH_VERSION}"
 
 
 def get_creds():
