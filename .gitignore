@@ -1,0 +1,7 @@
+content-pipeline/queue/
+content-pipeline/batch.log
+content-pipeline/publish.log
+content-pipeline/_publish_tmp/
+*.pyc
+__pycache__/
+.env

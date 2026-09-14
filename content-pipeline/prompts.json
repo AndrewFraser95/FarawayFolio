@@ -1,0 +1,38 @@
+[
+  {
+    "id": "balcony-golden-hour",
+    "prompt": "A balcony scene at golden hour, linen curtains blowing gently, a coastal town visible in the soft-focus distance, quiet luxury travel aesthetic, warm neutral tones",
+    "caption": "Some mornings just ask you to slow down.",
+    "pick": "the Weekender Case"
+  },
+  {
+    "id": "boutique-hotel-room",
+    "prompt": "Boutique hotel room interior, warm neutral tones, soft morning light through sheer curtains, an open suitcase styled aesthetically on a linen bed, quiet luxury",
+    "caption": "Unpacking is half the ritual.",
+    "pick": "the Passport Folio"
+  },
+  {
+    "id": "cafe-table",
+    "prompt": "A small cafe table scene, espresso cup, sunglasses resting on a folded passport, blurred cobblestone street in the background, warm afternoon light",
+    "caption": "Ten minutes, one espresso, no notifications.",
+    "pick": "the Linen Travel Set"
+  },
+  {
+    "id": "poolside-resort",
+    "prompt": "Poolside at a quiet luxury resort, folded towel on a sun lounger, single potted palm, soft midday light, muted warm tones, minimal composition",
+    "caption": "The kind of quiet you have to travel for.",
+    "pick": "the Weekender Case"
+  },
+  {
+    "id": "train-platform",
+    "prompt": "A vintage train platform, departure board softly blurred, traveler silhouette walking away, warm soft film grain, golden light",
+    "caption": "Somewhere new always starts with a platform like this.",
+    "pick": "the Passport Folio"
+  },
+  {
+    "id": "market-street",
+    "prompt": "A warm afternoon market street scene, woven bags and textiles on display, dappled sunlight, muted warm color palette, quiet luxury travel aesthetic",
+    "caption": "Souvenirs, but make them considered.",
+    "pick": "the Linen Travel Set"
+  }
+]
