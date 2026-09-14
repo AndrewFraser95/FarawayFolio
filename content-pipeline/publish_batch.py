@@ -14,7 +14,8 @@ this script downloads each image locally just long enough to:
 Requires:
     COMFYUI_HOST, IG_USER_ID, IG_ACCESS_TOKEN, X_API_KEY, X_API_SECRET,
     X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET, PUBLIC_MEDIA_BASE_URL
-    (e.g. https://andrewfraser95.github.io/FarawayFolio)
+    (should be https://farawayfolio.com once the custom domain DNS is live —
+    NOT andrewfraser.com, which is a separate personal site on the same GitHub account)
 
 Usage:
     python3 publish_batch.py --limit 3

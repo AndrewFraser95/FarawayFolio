@@ -3,7 +3,7 @@
 Aspirational travel / quiet-luxury aesthetic content project. IG handle @farawayfolio (secured), contact foliofaraway@gmail.com.
 
 ## Structure
-- `docs/` — static landing page (plain HTML/CSS, no build step) **and** `docs/media/` for published post images. Served by GitHub Pages at https://andrewfraser95.github.io/FarawayFolio (repo: https://github.com/AndrewFraser95/FarawayFolio) — must be `docs/` specifically, GitHub Pages only serves repo root or `/docs`.
+- `docs/` — static landing page (plain HTML/CSS, no build step) **and** `docs/media/` for published post images. Served by GitHub Pages, custom domain **farawayfolio.com** (repo: https://github.com/AndrewFraser95/FarawayFolio) — must be `docs/` specifically, GitHub Pages only serves repo root or `/docs`. (Not andrewfraser.com — that's Andrew's separate personal site, already using that domain on his GitHub account; Faraway Folio deliberately uses its own purchased domains instead.)
 - `content-pipeline/` — ComfyUI bridge script + content calendar/strategy + publishing scripts.
 - `x-marketing/` — X (Twitter) launch copy and ongoing post templates.
 
@@ -41,10 +41,10 @@ No scheduled/cron job — Andrew doesn't want one (a launchd job was set up and 
 3. Posts to Instagram (`publish_instagram.py`, Graph API) and X (`publish_x.py`, API v2 + v1.1 media upload).
 4. Deletes the local temp copy.
 
-Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL=https://andrewfraser95.github.io/FarawayFolio`.
+Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL=https://farawayfolio.com`.
 
 **Setup checklist:**
-1. ~~GitHub repo~~ — done: https://github.com/AndrewFraser95/FarawayFolio, code pushed. Pages needs enabling: repo → Settings → Pages → Source: **Deploy from a branch** → Branch: **main** → folder: **/docs** → Save. (Tried via API, GitHub only allows root or `/docs` as the Pages source — this is the one remaining manual toggle.)
+1. ~~GitHub repo + Pages~~ — done: https://github.com/AndrewFraser95/FarawayFolio, code pushed, Pages enabled (source: main branch, `/docs` folder). **Custom domain still needed**: repo → Settings → Pages → Custom domain → `farawayfolio.com` → Save, then add these DNS records at the registrar: A records @ → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`; CNAME `www` → `andrewfraser95.github.io`. (GitHub defaulted Pages to `andrewfraser.com`, which is Andrew's separate personal site on the same account — deliberately not used here.)
 2. ~~Instagram → Business + Facebook Page~~ — done.
 3. Meta Developer App created, App ID `1411016084512038`. Still needed: add the **Instagram Graph API** product if not already added, then generate a User Access Token via [Graph API Explorer](https://developers.facebook.com/tools/explorer) with scopes `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`, `business_management` — this works without App Review since it's Andrew's own app + Page + IG account (Development Mode). Then: exchange for a long-lived token, call `/me/accounts` to find the linked Page, read `instagram_business_account.id` from it → that's `IG_USER_ID`; the Page's access token → `IG_ACCESS_TOKEN`.
 4. X Developer account (Free tier) → Project + App → User auth set to Read+Write → four API keys still needed.
