@@ -136,14 +136,11 @@ h2.section-title {
 }
 
 .card .img-slot {
+  display: block;
+  width: 100%;
   aspect-ratio: 4 / 5;
+  object-fit: cover;
   background: linear-gradient(135deg, #e5d9c8, #cbb392);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(43,36,29,0.35);
-  font-size: 0.8rem;
-  letter-spacing: 0.05em;
 }
 
 .card .body { padding: 16px 18px 20px; }
