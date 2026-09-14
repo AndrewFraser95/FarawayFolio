@@ -32,7 +32,24 @@ There's no connected Instagram/X posting API in this setup (both require their o
 3. Cross-post the same caption's first line to X via the templates in `x-marketing/launch-copy.md`, or ask for a fresh one-liner per post.
 
 ## Automation
-Explicitly **not automated** — Andrew doesn't want a scheduled/cron-style job for this. A launchd job was set up and then removed on 2026-09-14 at his request. Run `content-pipeline/generate_batch.py` manually whenever fresh content is wanted (confirm the Windows ComfyUI machine is awake first — it doesn't stay on 24/7, connect via Tailscale `100.104.162.124:8188`).
+No scheduled/cron job — Andrew doesn't want one (a launchd job was set up and then removed on 2026-09-14 at his request). Run `content-pipeline/generate_batch.py` manually whenever fresh content is wanted (confirm the Windows ComfyUI machine is awake first — it doesn't stay on 24/7, connect via Tailscale `100.104.162.124:8188`).
+
+## Live posting via Instagram/X APIs (in progress)
+`content-pipeline/publish_batch.py` generates content and posts it **directly, live, with no human review step** (explicit choice — the only safety rail is `--limit`, capping posts per run). It:
+1. Generates an image via ComfyUI (downloaded locally, unlike `generate_batch.py`).
+2. Commits it into this repo's `media/<date>/<theme-id>.png` and pushes — GitHub Pages then serves it at a public URL, which Instagram's Content Publishing API requires (it fetches images server-side, no direct upload).
+3. Posts to Instagram (`publish_instagram.py`, Graph API) and X (`publish_x.py`, API v2 + v1.1 media upload).
+4. Deletes the local temp copy.
+
+Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL` (e.g. `https://<github-username>.github.io/faraway-folio`).
+
+**Setup checklist (manual, needs Andrew's own logins):**
+1. GitHub repo `faraway-folio` (public, for free Pages) — repo URL still needed to push and enable Pages.
+2. Instagram account → Professional → Business, linked to a Facebook Page.
+3. Meta Developer App with the Instagram Graph API product added — App ID still needed.
+4. X Developer account (Free tier) → Project + App → User auth set to Read+Write → four API keys still needed.
+
+None of this is live yet — scripts are written and tested for syntax/logic but not yet run against real credentials. First real "did this actually post" test still needs to happen once all four credential sets exist.
 
 ## Domain renewal
 4 TLDs on 1-year contracts, renewing ~2027-08-13: .info £66/yr, .store £33/yr, .com £15/yr, .uk £15/yr = **£129/yr total**. Reminder set for 2027-07-13 to decide whether to renew all four or drop to just .com — only renew what's earning its keep.
