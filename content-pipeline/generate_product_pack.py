@@ -77,11 +77,24 @@ def build_pack(spec_path, out_dir):
 
     results = []
     for i, entry in enumerate(spec["images"], start=1):
-        print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) ===")
-        raw_path = generate_one(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
         num = f"{i:02d}"
         print_jpg = os.path.join(print_dir, f"{num}-{entry['id']}.jpg")
         wallpaper_jpg = os.path.join(wallpaper_dir, f"{num}-{entry['id']}-wallpaper.jpg")
+
+        if os.path.exists(print_jpg) and os.path.exists(wallpaper_jpg):
+            print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) — already done, skipping ===")
+            results.append(entry["id"])
+            continue
+
+        # A raw PNG may already exist from a prior interrupted run (e.g. ComfyUI
+        # finished generating it but the download/packaging step never ran).
+        existing_raw = [f for f in os.listdir(raw_dir) if f.startswith(f"{slug}_{entry['id']}_")]
+        if existing_raw:
+            print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) — reusing existing raw image ===")
+            raw_path = os.path.join(raw_dir, existing_raw[0])
+        else:
+            print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) ===")
+            raw_path = generate_one(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
 
         subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "92", raw_path, "--out", print_jpg],
                         check=True, capture_output=True)
@@ -122,6 +135,10 @@ def build_pack(spec_path, out_dir):
 
 
 def main():
+    # Line-buffer stdout so progress is visible in real time when redirected to a
+    # log file (e.g. nohup ... > log.txt &) instead of only appearing on exit.
+    sys.stdout.reconfigure(line_buffering=True)
+
     parser = argparse.ArgumentParser(description="Generate a full Gumroad product pack from a spec JSON.")
     parser.add_argument("--volume", required=True, help="Path to a products/volume-N.json spec")
     parser.add_argument("--out", default=os.path.join(REPO_ROOT, "branding"), help="Base output directory")
