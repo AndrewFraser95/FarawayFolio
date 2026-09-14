@@ -68,7 +68,7 @@ def generate_image(prompt, out_dir):
         "--workflow", os.path.join(HERE, "workflow_api.json"),
         "--prompt", prompt,
         "--out", out_dir,
-        "--timeout", "300",
+        "--timeout", "600",
     ]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:

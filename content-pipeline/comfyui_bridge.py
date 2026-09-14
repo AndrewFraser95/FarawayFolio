@@ -137,7 +137,7 @@ def main():
     parser.add_argument("--workflow", required=True, help="Path to workflow_api.json exported from ComfyUI")
     parser.add_argument("--prompt", required=True, help="Prompt text to inject into the workflow")
     parser.add_argument("--out", default="./output", help="Directory to save generated images (ignored with --no-download)")
-    parser.add_argument("--timeout", type=int, default=300, help="Seconds to wait for generation")
+    parser.add_argument("--timeout", type=int, default=600, help="Seconds to wait for generation")
     parser.add_argument("--filename-prefix", default=None, help="Override the SaveImage filename_prefix (e.g. the content theme id)")
     parser.add_argument("--no-download", action="store_true", help="Leave images on the ComfyUI machine instead of copying them back here")
     args = parser.parse_args()

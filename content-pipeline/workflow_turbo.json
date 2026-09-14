@@ -1,7 +1,7 @@
 {
   "1": {
     "inputs": {
-      "unet_name": "z_image_bf16.safetensors",
+      "unet_name": "z_image_turbo_bf16.safetensors",
       "weight_dtype": "default"
     },
     "class_type": "UNETLoader",
@@ -31,7 +31,7 @@
   },
   "10": {
     "inputs": {
-      "shift": 3,
+      "shift": 1.73,
       "model": ["1", 0]
     },
     "class_type": "ModelSamplingAuraFlow",
@@ -51,7 +51,7 @@
   },
   "3": {
     "inputs": {
-      "text": "blurry, low quality, distorted, deformed, artifacts, watermark, text, signature, oversaturated, noisy, grainy, low resolution, cropped, out of frame",
+      "text": "",
       "clip": ["4", 0]
     },
     "class_type": "CLIPTextEncode",
@@ -61,8 +61,8 @@
   },
   "49": {
     "inputs": {
-      "aspect_ratio": "2:3 (Portrait Photo)",
-      "megapixels": 2.0,
+      "aspect_ratio": "1:1 (Square)",
+      "megapixels": 1,
       "multiple": 8
     },
     "class_type": "ResolutionSelector",
@@ -84,8 +84,8 @@
   "6": {
     "inputs": {
       "seed": 0,
-      "steps": 30,
-      "cfg": 4,
+      "steps": 8,
+      "cfg": 1,
       "sampler_name": "res_multistep",
       "scheduler": "simple",
       "denoise": 1,
@@ -111,7 +111,7 @@
   },
   "29": {
     "inputs": {
-      "filename_prefix": "FarawayFolioHQ",
+      "filename_prefix": "FarawayFolio",
       "images": ["7", 0]
     },
     "class_type": "SaveImage",
