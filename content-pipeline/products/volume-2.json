@@ -1,0 +1,20 @@
+{
+  "name": "Faraway Folio, Volume Two",
+  "theme": "Coastal Village",
+  "price": "£10",
+  "images": [
+    {"id": "cliffside-village", "prompt": "Cliffside village houses cascading down to the sea, pastel colors, golden hour, quiet luxury travel aesthetic"},
+    {"id": "fishing-harbor", "prompt": "A small harbor with fishing boats, calm turquoise water, warm morning light, quiet luxury travel aesthetic"},
+    {"id": "lemon-grove-terrace", "prompt": "A lemon grove terrace overlooking the coast, dappled sunlight, quiet luxury travel aesthetic"},
+    {"id": "seaside-piazza", "prompt": "A seaside piazza with a stone fountain, warm afternoon light, empty cafe tables nearby, quiet luxury travel aesthetic"},
+    {"id": "pebble-beach", "prompt": "Striped beach umbrellas and sun loungers on a quiet pebble beach, soft morning light, minimalist quiet luxury composition"},
+    {"id": "coastal-church", "prompt": "A coastal stone church bell tower against a clear blue sky, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "cliffside-stairs", "prompt": "A winding cliffside staircase down to the sea, whitewashed walls, warm golden light, quiet luxury travel aesthetic"},
+    {"id": "white-lighthouse", "prompt": "A small white lighthouse on a rocky point, calm sea, soft dusk light, minimalist quiet luxury composition"},
+    {"id": "sunset-dinner-table", "prompt": "An outdoor dinner table set for two overlooking the coastline at sunset, warm candlelight, quiet luxury travel aesthetic"},
+    {"id": "gelato-shop", "prompt": "A gelato shop window display, pastel colors, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "moored-sailboats", "prompt": "Sailboats moored in a calm turquoise bay, elevated view, soft midday light, quiet luxury travel aesthetic"},
+    {"id": "bougainvillea-alley", "prompt": "A narrow whitewashed alley with bougainvillea climbing the walls, warm afternoon light, quiet luxury travel aesthetic"},
+    {"id": "coastal-viewpoint", "prompt": "A rocky coastal viewpoint with a single bench, endless sea view, soft golden hour light, minimalist quiet luxury aesthetic"}
+  ]
+}
