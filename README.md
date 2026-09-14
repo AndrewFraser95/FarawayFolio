@@ -3,15 +3,15 @@
 Aspirational travel / quiet-luxury aesthetic content project. IG handle @farawayfolio (secured), contact foliofaraway@gmail.com.
 
 ## Structure
-- `site/` — static landing page (plain HTML/CSS, no build step). Deploy as-is to Vercel/Netlify/GitHub Pages.
-- `content-pipeline/` — ComfyUI bridge script + content calendar/strategy.
+- `docs/` — static landing page (plain HTML/CSS, no build step) **and** `docs/media/` for published post images. Served by GitHub Pages at https://andrewfraser95.github.io/FarawayFolio (repo: https://github.com/AndrewFraser95/FarawayFolio) — must be `docs/` specifically, GitHub Pages only serves repo root or `/docs`.
+- `content-pipeline/` — ComfyUI bridge script + content calendar/strategy + publishing scripts.
 - `x-marketing/` — X (Twitter) launch copy and ongoing post templates.
 
 ## Next steps, in priority order
 
 1. ~~Reserve @farawayfolio on X/Twitter~~ — done.
 2. ~~Register domains~~ — done: farawayfolio.uk, .com, .store, .info (1-year contracts, renewal reminder set for 2027-07-13, see below).
-3. **Deploy the site** — drag-and-drop `site/` onto Vercel or Netlify (free tier), or `git init` this repo and connect it for auto-deploys.
+3. ~~Deploy the site~~ — repo pushed to GitHub; Pages needs enabling (see checklist below, one manual toggle).
 4. ~~Set up ComfyUI bridge~~ — done. Windows machine reachable at `192.168.1.237` (LAN) / `100.104.162.124` (Tailscale, preferred — works off-network too), port 8188, `--listen 0.0.0.0` confirmed working.
 5. **Generate content batches** — `content-pipeline/generate_batch.py` runs every prompt in `prompts.json` through ComfyUI. **Images stay on the Windows ComfyUI machine** (not copied to this Mac, which often runs clamshell/headless) — each is named `FarawayFolio_<theme-id>_NNNNN_.png` in ComfyUI's own output folder, so it's obvious on the PC which image is which. This Mac only keeps the matching `caption.txt` per theme under `content-pipeline/queue/<date>/<theme>/`:
    ```
@@ -37,21 +37,19 @@ No scheduled/cron job — Andrew doesn't want one (a launchd job was set up and 
 ## Live posting via Instagram/X APIs (in progress)
 `content-pipeline/publish_batch.py` generates content and posts it **directly, live, with no human review step** (explicit choice — the only safety rail is `--limit`, capping posts per run). It:
 1. Generates an image via ComfyUI (downloaded locally, unlike `generate_batch.py`).
-2. Commits it into this repo's `media/<date>/<theme-id>.png` and pushes — GitHub Pages then serves it at a public URL, which Instagram's Content Publishing API requires (it fetches images server-side, no direct upload).
+2. Commits it into this repo's `docs/media/<date>/<theme-id>.png` and pushes — GitHub Pages then serves it at a public URL, which Instagram's Content Publishing API requires (it fetches images server-side, no direct upload).
 3. Posts to Instagram (`publish_instagram.py`, Graph API) and X (`publish_x.py`, API v2 + v1.1 media upload).
 4. Deletes the local temp copy.
 
 Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL=https://andrewfraser95.github.io/FarawayFolio`.
 
-Repo: https://github.com/AndrewFraser95/FarawayFolio (public, for free Pages).
-
-**Setup checklist (manual, needs Andrew's own logins):**
-1. GitHub repo `faraway-folio` (public, for free Pages) — repo URL still needed to push and enable Pages.
-2. Instagram account → Professional → Business, linked to a Facebook Page.
-3. Meta Developer App with the Instagram Graph API product added — App ID still needed.
+**Setup checklist:**
+1. ~~GitHub repo~~ — done: https://github.com/AndrewFraser95/FarawayFolio, code pushed. Pages needs enabling: repo → Settings → Pages → Source: **Deploy from a branch** → Branch: **main** → folder: **/docs** → Save. (Tried via API, GitHub only allows root or `/docs` as the Pages source — this is the one remaining manual toggle.)
+2. ~~Instagram → Business + Facebook Page~~ — done.
+3. Meta Developer App created, App ID `1411016084512038`. Still needed: add the **Instagram Graph API** product if not already added, then generate a User Access Token via [Graph API Explorer](https://developers.facebook.com/tools/explorer) with scopes `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`, `business_management` — this works without App Review since it's Andrew's own app + Page + IG account (Development Mode). Then: exchange for a long-lived token, call `/me/accounts` to find the linked Page, read `instagram_business_account.id` from it → that's `IG_USER_ID`; the Page's access token → `IG_ACCESS_TOKEN`.
 4. X Developer account (Free tier) → Project + App → User auth set to Read+Write → four API keys still needed.
 
-None of this is live yet — scripts are written and tested for syntax/logic but not yet run against real credentials. First real "did this actually post" test still needs to happen once all four credential sets exist.
+None of this is live yet — scripts are written but not yet run against real credentials. First real "did this actually post" test still needs to happen once IG_USER_ID/IG_ACCESS_TOKEN and the X keys exist.
 
 ## Domain renewal
 4 TLDs on 1-year contracts, renewing ~2027-08-13: .info £66/yr, .store £33/yr, .com £15/yr, .uk £15/yr = **£129/yr total**. Reminder set for 2027-07-13 to decide whether to renew all four or drop to just .com — only renew what's earning its keep.
@@ -60,4 +58,5 @@ None of this is live yet — scripts are written and tested for syntax/logic but
 - Two real image batches generated 2026-09-14 (Z-Image Turbo, 6 images each) — first batch was downloaded to this Mac (`content-pipeline/queue/2026-09-14/`, back when images were still copied here), second batch onward stays on the Windows PC per the clamshell workflow above. Neither batch posted yet.
 - No affiliate links are live — the "Shop the pick" buttons on the site are placeholders.
 - No digital product built yet.
-- Site not yet deployed (still local-only in `site/`).
+- GitHub Pages not yet enabled (manual toggle, see checklist above) — `docs/media/` URLs won't resolve until then.
+- IG_USER_ID/IG_ACCESS_TOKEN and X API keys not yet obtained — `publish_batch.py` untested against real accounts.

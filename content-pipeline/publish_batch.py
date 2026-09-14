@@ -6,7 +6,7 @@ posts a single run can push out, so a bad prompt/model glitch can't flood the ac
 
 Unlike generate_batch.py (which leaves images on the ComfyUI PC for manual posting),
 this script downloads each image locally just long enough to:
-  1. commit it into this repo's media/ folder and push (GitHub Pages then serves it
+  1. commit it into this repo's docs/media/ folder and push (GitHub Pages then serves it
      at a public URL, which Instagram's API requires),
   2. post it to Instagram (via that public URL) and X (direct upload, no public URL needed),
   3. delete the local copy.
@@ -73,7 +73,7 @@ def generate_image(entry, out_dir):
 
 
 def publish_to_media_repo(local_image_path, theme_id):
-    media_dir = os.path.join(REPO_ROOT, "media", date.today().isoformat())
+    media_dir = os.path.join(REPO_ROOT, "docs", "media", date.today().isoformat())
     os.makedirs(media_dir, exist_ok=True)
     filename = f"{theme_id}{os.path.splitext(local_image_path)[1]}"
     dest_path = os.path.join(media_dir, filename)
