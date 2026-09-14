@@ -41,7 +41,9 @@ No scheduled/cron job — Andrew doesn't want one (a launchd job was set up and 
 3. Posts to Instagram (`publish_instagram.py`, Graph API) and X (`publish_x.py`, API v2 + v1.1 media upload).
 4. Deletes the local temp copy.
 
-Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL` (e.g. `https://<github-username>.github.io/faraway-folio`).
+Needs these env vars set: `COMFYUI_HOST`, `IG_USER_ID`, `IG_ACCESS_TOKEN`, `X_API_KEY`, `X_API_SECRET`, `X_ACCESS_TOKEN`, `X_ACCESS_TOKEN_SECRET`, `PUBLIC_MEDIA_BASE_URL=https://andrewfraser95.github.io/FarawayFolio`.
+
+Repo: https://github.com/AndrewFraser95/FarawayFolio (public, for free Pages).
 
 **Setup checklist (manual, needs Andrew's own logins):**
 1. GitHub repo `faraway-folio` (public, for free Pages) — repo URL still needed to push and enable Pages.
