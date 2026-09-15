@@ -9,4 +9,7 @@ branding/*.zip
 content-pipeline/*-generation.log
 content-pipeline/volumes-45.log
 content-pipeline/starter-run.log
+content-pipeline/*-review-batch.log
+content-pipeline/_carousel_review/
+content-pipeline/_review_incoming/
 branding/gumroad-pack-volume-*/_raw/
