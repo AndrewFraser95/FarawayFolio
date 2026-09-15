@@ -78,7 +78,7 @@ def git_push(repo_root):
         subprocess.run(["git", "-C", repo_root, "remote", "set-url", "origin", clean_url], check=True)
 
 
-def publish_to_media_repo(local_image_path, post_id):
+def publish_to_media_repo(local_image_path, post_id, push=True):
     media_dir = os.path.join(REPO_ROOT, "docs", "media", date.today().isoformat())
     os.makedirs(media_dir, exist_ok=True)
     filename = f"{post_id}{os.path.splitext(local_image_path)[1]}"
@@ -88,7 +88,8 @@ def publish_to_media_repo(local_image_path, post_id):
     rel_path = os.path.relpath(dest_path, REPO_ROOT)
     subprocess.run(["git", "-C", REPO_ROOT, "add", rel_path], check=True)
     subprocess.run(["git", "-C", REPO_ROOT, "commit", "-m", f"Add starter content media: {post_id}"], check=True)
-    git_push(REPO_ROOT)
+    if push:
+        git_push(REPO_ROOT)
 
     base_url = os.environ["PUBLIC_MEDIA_BASE_URL"].rstrip("/")
     public_url = f"{base_url}/{rel_path}"
@@ -112,33 +113,41 @@ def main():
     sys.stdout.reconfigure(line_buffering=True)
     parser = argparse.ArgumentParser(description="Generate and publish starter engagement content.")
     parser.add_argument("--limit", type=int, default=6, help="Max posts this run")
+    parser.add_argument("--no-push", action="store_true",
+                         help="Commit media locally but don't push/post to Instagram (needs the public URL "
+                              "live); still posts to Facebook via direct upload, which doesn't need a public URL.")
     args = parser.parse_args()
 
     entries = load_entries()[: args.limit]
-    log(f"Starting starter content run: {len(entries)} post(s)")
+    log(f"Starting starter content run: {len(entries)} post(s), push={not args.no_push}")
 
     for entry in entries:
         try:
             log(f"{entry['id']}: generating image...")
             local_image = generate_image(entry["prompt"], os.path.join(HERE, "_publish_tmp"))
 
-            log(f"{entry['id']}: pushing to media repo...")
-            dest_path, public_url = publish_to_media_repo(local_image, entry["id"])
+            log(f"{entry['id']}: committing to media repo (push={not args.no_push})...")
+            dest_path, public_url = publish_to_media_repo(local_image, entry["id"], push=not args.no_push)
 
-            log(f"{entry['id']}: waiting for {public_url} to go live...")
-            if not wait_until_live(public_url):
-                raise RuntimeError(f"{public_url} did not become reachable in time")
-
-            log(f"{entry['id']}: posting to Instagram...")
-            ig_media_id = publish_instagram.post_to_instagram(public_url, entry["caption"])
-            log(f"{entry['id']}: Instagram OK, media_id={ig_media_id}")
+            if args.no_push:
+                log(f"{entry['id']}: skipping Instagram (no push this run, {public_url} not live yet)")
+            else:
+                log(f"{entry['id']}: waiting for {public_url} to go live...")
+                if not wait_until_live(public_url):
+                    raise RuntimeError(f"{public_url} did not become reachable in time")
+                log(f"{entry['id']}: posting to Instagram...")
+                ig_media_id = publish_instagram.post_to_instagram(public_url, entry["caption"])
+                log(f"{entry['id']}: Instagram OK, media_id={ig_media_id}")
 
             log(f"{entry['id']}: posting to Facebook...")
             fb_result = publish_facebook.post_to_facebook(dest_path, entry["caption"])
             log(f"{entry['id']}: Facebook OK, {json.dumps(fb_result)}")
 
-            os.remove(dest_path)
-            log(f"{entry['id']}: done, local copy removed")
+            if not args.no_push:
+                os.remove(dest_path)
+                log(f"{entry['id']}: done, local copy removed")
+            else:
+                log(f"{entry['id']}: done, local copy kept at {dest_path} (committed, not pushed)")
 
         except Exception as e:
             log(f"{entry['id']}: FAILED — {e}")
