@@ -91,8 +91,8 @@ def publish_to_media_repo(local_image_path, post_id, push=True):
     if push:
         git_push(REPO_ROOT)
 
-    base_url = os.environ["PUBLIC_MEDIA_BASE_URL"].rstrip("/")
-    public_url = f"{base_url}/{rel_path}"
+    base_url = os.environ.get("PUBLIC_MEDIA_BASE_URL")
+    public_url = f"{base_url.rstrip('/')}/{rel_path}" if base_url else None
     return dest_path, public_url
 
 
