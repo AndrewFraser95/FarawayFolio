@@ -94,7 +94,11 @@ def build_pack(spec_path, out_dir):
             raw_path = os.path.join(raw_dir, existing_raw[0])
         else:
             print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) ===")
-            raw_path = generate_one(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
+            try:
+                raw_path = generate_one(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
+            except Exception as exc:
+                print(f"  !! {entry['id']} failed ({exc}) — skipping for now, continuing with the rest of the pack")
+                continue
 
         subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "92", raw_path, "--out", print_jpg],
                         check=True, capture_output=True)
