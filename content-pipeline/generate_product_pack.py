@@ -13,11 +13,11 @@ import argparse
 import json
 import os
 import env_loader  # noqa: F401 (loads ../.env into os.environ)
-import subprocess
 import sys
 import urllib.request
 
 from safe_generate import generate_one_safe, MachineUnreachableError, RunCapReached, RunCapCounter
+from pack_builder import assemble_pack
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
@@ -42,29 +42,16 @@ def build_pack(spec_path, out_dir):
 
     slug = os.path.splitext(os.path.basename(spec_path))[0]  # e.g. "volume-2"
     pack_dir = os.path.join(out_dir, f"gumroad-pack-{slug}")
-    print_dir = os.path.join(pack_dir, "print")
-    wallpaper_dir = os.path.join(pack_dir, "wallpaper")
     raw_dir = os.path.join(pack_dir, "_raw")
-    os.makedirs(print_dir, exist_ok=True)
-    os.makedirs(wallpaper_dir, exist_ok=True)
     os.makedirs(raw_dir, exist_ok=True)
 
     free_comfyui_memory()
 
     cap = RunCapCounter()
-    results = []
+    images = []
     for i, entry in enumerate(spec["images"], start=1):
-        num = f"{i:02d}"
-        print_jpg = os.path.join(print_dir, f"{num}-{entry['id']}.jpg")
-        wallpaper_jpg = os.path.join(wallpaper_dir, f"{num}-{entry['id']}-wallpaper.jpg")
-
-        if os.path.exists(print_jpg) and os.path.exists(wallpaper_jpg):
-            print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) — already done, skipping ===")
-            results.append(entry["id"])
-            continue
-
-        # A raw PNG may already exist from a prior interrupted run (e.g. ComfyUI
-        # finished generating it but the download/packaging step never ran).
+        # A raw PNG may already exist from a prior run -- reuse it rather than
+        # regenerating (cheap to re-encode into print/wallpaper JPEGs either way).
         existing_raw = [f for f in os.listdir(raw_dir) if f.startswith(f"{slug}_{entry['id']}_")]
         if existing_raw:
             print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) — reusing existing raw image ===")
@@ -84,40 +71,11 @@ def build_pack(spec_path, out_dir):
             except Exception as exc:
                 print(f"  !! {entry['id']} failed ({exc}) — skipping for now, continuing with the rest of the pack")
                 continue
+        images.append({"id": entry["id"], "raw_path": raw_path})
 
-        subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "92", raw_path, "--out", print_jpg],
-                        check=True, capture_output=True)
+    pack_dir, zip_path = assemble_pack(images, spec["name"], spec["theme"], slug, out_dir)
 
-        # Read actual dimensions to compute a correct centered 9:16 crop width.
-        dim = subprocess.run(["sips", "-g", "pixelHeight", "-g", "pixelWidth", raw_path],
-                              check=True, capture_output=True, text=True).stdout
-        height = int([l for l in dim.splitlines() if "pixelHeight" in l][0].split(":")[1].strip())
-        crop_width = round(height * 9 / 16)
-        subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "92",
-                         "-c", str(height), str(crop_width), raw_path, "--out", wallpaper_jpg],
-                        check=True, capture_output=True)
-
-        results.append(entry["id"])
-
-    readme_path = os.path.join(pack_dir, "README.txt")
-    with open(readme_path, "w") as f:
-        f.write(f"{spec['name']}\n{spec['theme']}\n\n")
-        f.write("Thanks for downloading.\n\n")
-        f.write("WHAT'S INSIDE\n")
-        f.write("- print/       high-resolution images (2:3 ratio), ready to print\n")
-        f.write("- wallpaper/   the same scenes, cropped to 9:16 for phone lock screens/wallpapers\n\n")
-        f.write("PRINT SIZES\n")
-        f.write("The 2:3 ratio matches standard frame sizes: 4x6in, 8x12in, 12x18in, 16x24in.\n")
-        f.write("For best quality, don't print larger than 16x24in from these files.\n\n")
-        f.write("Enjoy, and tag @farawayfolio if you share where you put them.\n")
-
-    zip_path = os.path.join(out_dir, f"Faraway-Folio-{spec['name'].split(', ')[-1].replace(' ', '-')}.zip")
-    if os.path.exists(zip_path):
-        os.remove(zip_path)
-    subprocess.run(["zip", "-r", zip_path, f"gumroad-pack-{slug}/print", f"gumroad-pack-{slug}/wallpaper",
-                     f"gumroad-pack-{slug}/README.txt"], cwd=out_dir, check=True, capture_output=True)
-
-    print(f"\n=== {spec['name']} complete: {len(results)} images ===")
+    print(f"\n=== {spec['name']} complete: {len(images)}/{len(spec['images'])} images ===")
     print(f"Pack dir: {pack_dir}")
     print(f"Zip: {zip_path}")
     return pack_dir, zip_path

@@ -59,6 +59,22 @@ Live storefront: https://farawayfolio.gumroad.com. Pipeline:
 ## Posting workflow (continued)
 `content-pipeline/starter_content.json` + `publish_starter_content.py` — lighter single-image engagement posts (not tied to a product pack), e.g. European-city "what's your dream day in Rome?" posts. Same live-posting pattern as `publish_batch.py` (Instagram via public URL, Facebook via direct upload) but simpler, one image per post.
 
+## Review queue ("Folio Proofing") — the current default workflow
+
+Andrew flagged real AI artifacts (garbled text, deformed people) getting through to sold/posted content, and asked for a swipe-review gate before anything goes out, plus for content to trickle in over time rather than land in big blind overnight batches. As of 2026-09-15, **this is the default flow for everything new** — packs and social posts alike:
+
+1. **Generate candidates** (thermally safe — see below) into a local folder, not straight into a pack or a post.
+2. **Claude uploads each one to the Folio Proofing review queue** — a private swipe-review Artifact page: https://claude.ai/artifact/BoD2MyhTBAWaRidihWNzwW (org-internal only; nobody outside Andrew's Claude org can open it, no separate password layer needed or added). Uploading requires the Artifact tool, which only Claude can call — a standalone script can't write to it directly, so this step happens each session Claude runs, not as a background job.
+3. **Andrew swipes** — approve/reject, drag or tap, arrow keys, undo with Z.
+4. **Claude processes approvals each session**: reads the queue via the Artifact tool, and for each group of approved images:
+   - `kind: "single"` (one-off engagement post) → posts live to Instagram + Facebook immediately via `social_from_approved.py`.
+   - `kind: "carousel"` (a themed 4-image post) → once **all** images in that group are approved, posts the full carousel live via the same script.
+   - `kind: "pack"` (a Gumroad volume) → once approved images for that `group` (e.g. `volume-6`) reach the pack's target count, bundles and publishes via `pack_from_approved.py` — **packs are never built from an unreviewed blind batch anymore.**
+   Rejected images are just left rejected (discarded, not auto-regenerated — that's a manual call for now).
+5. Since Andrew doesn't want a recurring/cron job for this (established preference — see Automation below), there's no 24/7 auto-processing; approvals get processed the next time Claude runs a session, which in practice has been every time so far.
+
+**Thermal/reliability safety** (`content-pipeline/safe_generate.py`, added 2026-09-15 after the Windows ComfyUI machine overheated and stopped responding during an unattended overnight run): every generation script now takes a cooldown pause between images (default 45s, `COMFYUI_COOLDOWN_SECONDS`), caps itself at a modest number of images per run (default 10, `COMFYUI_MAX_IMAGES_PER_RUN`) rather than powering through for hours unattended, and aborts the whole run immediately (no retry-hammering) if ComfyUI stops responding to a basic health check. ComfyUI doesn't expose GPU temperature over its API, so this is pacing/backoff, not real thermal telemetry — if the machine keeps overheating even with pacing, the next lever is generating at lower resolution/fewer steps, or Andrew improving physical cooling/airflow.
+
 ## Domain renewal
 4 TLDs on 1-year contracts, renewing ~2027-08-13: .info £66/yr, .store £33/yr, .com £15/yr, .uk £15/yr = **£129/yr total**. Reminder set for 2027-07-13 to decide whether to renew all four or drop to just .com — only renew what's earning its keep.
 
