@@ -29,6 +29,7 @@ LOG_PATH = os.path.join(HERE, "publish.log")
 sys.path.insert(0, HERE)
 import publish_facebook  # noqa: E402
 import publish_instagram  # noqa: E402
+from safe_generate import generate_one_safe, MachineUnreachableError, RunCapReached, RunCapCounter  # noqa: E402
 
 
 def log(message):
@@ -44,23 +45,7 @@ def load_entries():
 
 
 def generate_image(prompt, out_dir, timeout=900):
-    os.makedirs(out_dir, exist_ok=True)
-    cmd = [
-        sys.executable,
-        os.path.join(HERE, "comfyui_bridge.py"),
-        "--workflow", os.path.join(HERE, "workflow_api.json"),
-        "--prompt", prompt,
-        "--out", out_dir,
-        "--timeout", str(timeout),
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"Generation failed: {result.stderr}")
-    for line in result.stdout.splitlines():
-        line = line.strip()
-        if line.endswith(".png") or line.endswith(".jpg"):
-            return line
-    raise RuntimeError(f"No image path found in bridge output: {result.stdout}")
+    return generate_one_safe(prompt, None, out_dir, timeout=timeout)
 
 
 def git_push(repo_root):
@@ -121,9 +106,11 @@ def main():
 
     entries = load_entries()[: args.limit]
     log(f"Starting starter content run: {len(entries)} post(s), push={not args.no_push}")
+    cap = RunCapCounter()
 
     for entry in entries:
         try:
+            cap.check()
             log(f"{entry['id']}: generating image...")
             local_image = generate_image(entry["prompt"], os.path.join(HERE, "_publish_tmp"))
 
@@ -150,6 +137,12 @@ def main():
             else:
                 log(f"{entry['id']}: done, local copy kept at {dest_path} (committed, not pushed)")
 
+        except RunCapReached as e:
+            log(f"stopping: {e}")
+            break
+        except MachineUnreachableError as e:
+            log(f"stopping entire run: {e}")
+            break
         except Exception as e:
             log(f"{entry['id']}: FAILED — {e}")
 

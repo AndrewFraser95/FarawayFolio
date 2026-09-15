@@ -15,8 +15,9 @@ import os
 import env_loader  # noqa: F401 (loads ../.env into os.environ)
 import subprocess
 import sys
-import time
 import urllib.request
+
+from safe_generate import generate_one_safe, MachineUnreachableError, RunCapReached, RunCapCounter
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(HERE)
@@ -35,32 +36,6 @@ def free_comfyui_memory():
         print(f"  (warning: failed to free ComfyUI memory: {e})")
 
 
-def generate_one(prompt_text, filename_prefix, out_dir, timeout):
-    os.makedirs(out_dir, exist_ok=True)
-    cmd = [
-        sys.executable,
-        os.path.join(HERE, "comfyui_bridge.py"),
-        "--workflow", os.path.join(HERE, "workflow_api.json"),
-        "--prompt", prompt_text,
-        "--filename-prefix", filename_prefix,
-        "--out", out_dir,
-        "--timeout", str(timeout),
-    ]
-    for attempt in (1, 2):
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        print(result.stdout)
-        if result.returncode == 0 and "Saved 1 image" in result.stdout:
-            for line in result.stdout.splitlines():
-                line = line.strip()
-                if line.endswith(".png") or line.endswith(".jpg"):
-                    return line
-        print(result.stderr)
-        print(f"  attempt {attempt} failed, freeing memory and retrying...")
-        free_comfyui_memory()
-        time.sleep(3)
-    raise RuntimeError(f"Generation failed after retries for {filename_prefix}")
-
-
 def build_pack(spec_path, out_dir):
     with open(spec_path) as f:
         spec = json.load(f)
@@ -76,6 +51,7 @@ def build_pack(spec_path, out_dir):
 
     free_comfyui_memory()
 
+    cap = RunCapCounter()
     results = []
     for i, entry in enumerate(spec["images"], start=1):
         num = f"{i:02d}"
@@ -94,9 +70,17 @@ def build_pack(spec_path, out_dir):
             print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) — reusing existing raw image ===")
             raw_path = os.path.join(raw_dir, existing_raw[0])
         else:
+            try:
+                cap.check()
+            except RunCapReached as exc:
+                print(f"\n=== {exc} ===")
+                break
             print(f"\n=== {slug}: {entry['id']} ({i}/{len(spec['images'])}) ===")
             try:
-                raw_path = generate_one(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
+                raw_path = generate_one_safe(entry["prompt"], f"{slug}_{entry['id']}", raw_dir, timeout=600)
+            except MachineUnreachableError as exc:
+                print(f"\n=== {exc} — stopping this run entirely ===")
+                break
             except Exception as exc:
                 print(f"  !! {entry['id']} failed ({exc}) — skipping for now, continuing with the rest of the pack")
                 continue

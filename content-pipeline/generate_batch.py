@@ -28,6 +28,8 @@ import subprocess
 import sys
 import time
 import urllib.request
+
+from safe_generate import is_comfyui_alive, cooldown, MachineUnreachableError, RunCapReached, RunCapCounter
 import zipfile
 from datetime import date
 
@@ -112,12 +114,26 @@ def main():
     free_comfyui_memory()
 
     results = []
+    cap = RunCapCounter()
+    stop_all = False
     for post in prompts:
+        if stop_all:
+            break
         post_dir = os.path.join(batch_dir, post["id"])
         os.makedirs(post_dir, exist_ok=True)
 
         image_ok = []
         for i, prompt_text in enumerate(post["images"], start=1):
+            try:
+                cap.check()
+            except RunCapReached as exc:
+                print(f"\n=== {exc} ===")
+                stop_all = True
+                break
+            if not is_comfyui_alive():
+                print("\n=== ComfyUI isn't responding -- stopping this run rather than hammering it ===")
+                stop_all = True
+                break
             filename_prefix = f"{FILENAME_PREFIX}_{post['id']}-{i}"
             cmd = [
                 sys.executable,
@@ -138,10 +154,17 @@ def main():
                 if ok:
                     break
                 print(result.stderr)
+                if not is_comfyui_alive():
+                    print("  ComfyUI stopped responding -- not retrying")
+                    stop_all = True
+                    break
                 print(f"  generation failed for {post['id']} image {i}, freeing memory and retrying...")
                 free_comfyui_memory()
                 time.sleep(3)
+            cooldown()
             image_ok.append(ok)
+            if stop_all:
+                break
 
         with open(os.path.join(post_dir, "caption.txt"), "w") as f:
             f.write(post["caption"] + "\n")
