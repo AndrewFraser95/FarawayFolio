@@ -51,7 +51,7 @@
   },
   "3": {
     "inputs": {
-      "text": "blurry, low quality, distorted, deformed, artifacts, watermark, text, signature, oversaturated, noisy, grainy, low resolution, cropped, out of frame",
+      "text": "blurry, low quality, distorted, deformed, artifacts, watermark, oversaturated, noisy, grainy, low resolution, cropped, out of frame, text, words, letters, writing, caption, subtitle, signage, illegible text, gibberish text, logo, watermark, signature, username, extra limbs, extra fingers, fused fingers, missing fingers, malformed hands, mutated hands, poorly drawn hands, poorly drawn face, disfigured face, asymmetrical eyes, extra legs, missing limbs, long neck, bad anatomy, disfigured, mutilated, duplicate, morbid, ugly, worst quality, jpeg artifacts",
       "clip": ["4", 0]
     },
     "class_type": "CLIPTextEncode",
