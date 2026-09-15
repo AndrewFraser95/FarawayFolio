@@ -63,7 +63,10 @@ Live storefront: https://farawayfolio.gumroad.com. Pipeline:
 ## Not yet done
 - ~~farawayfolio.com HTTPS~~ — live and confirmed as of 2026-09-15.
 - X posting blocked (403 on media upload) — needs Andrew to check his X Developer Portal plan/billing, see "Posting workflow" above.
-- Volumes Two through Five (and their Gumroad listings) were mid-generation overnight 2026-09-14/15 — check `content-pipeline/volumes-generation.log` and `gumroad products list` for actual current status, don't assume completion from this file.
-- No real affiliate program applied to yet — the site's product cards now link to the real Gumroad packs instead (as of the overnight session), not fictional affiliate placeholders.
+- **Volumes Four and Five are incomplete** (1/13 and 0/13 images respectively) — the overnight run crashed on both when the Windows ComfyUI machine went unreachable (network timeout, likely went to sleep). Resume with `python3 content-pipeline/generate_product_pack.py --volume content-pipeline/products/volume-4.json` (and `-5.json`) once ComfyUI is reachable again — pipeline is resumable, then publish via `publish_volume_to_gumroad.py`. Volumes One/Two/Three are live and clean (a duplicate broken Volume Two listing from a pre-fix publish attempt was found and deleted 2026-09-15).
+- **New European-city engagement posts not yet generated/posted** — `content-pipeline/starter_content.json` + `publish_starter_content.py` are built and ready but blocked on the same ComfyUI unavailability.
+- **GitHub push blocked this session** — no `GITHUB_PAT` env var available to embed in the remote URL (see "GitHub push credentials" above); site changes (shop cards, this file, MONETIZATION.md) are committed locally on `main` but not yet pushed to GitHub, so GitHub Pages hasn't redeployed with them. Needs a fresh PAT from Andrew (or him to run `git push` himself) to go live.
+- No real affiliate program applied to yet — the site's 3 product cards now link to the real live Gumroad packs (Volumes One/Two/Three) instead of fictional placeholders, as of 2026-09-15.
 - Facebook Page's own public URL isn't recorded anywhere in this repo (only the numeric `FB_PAGE_ID`) — get it via the Graph API (`GET <page-id>?fields=link`) with a fresh Page token, or from Andrew, before linking to it anywhere.
 - Profile pictures/bios drafted (`branding/`) but not reconfirmed since Andrew said he'd uploaded them.
+- One-shot launchd job `com.dev.faraway-folio-volumes` is still loaded — safe to remove once Volumes Four/Five finish (see Automation section).

@@ -1,24 +1,30 @@
 # Where the money actually comes from
 
-## Status as of 2026-09-14 (later same day)
-**Product one is built and delivered.** "Faraway Folio, Volume One" — 6 print-ready images + 6 phone-wallpaper crops + a README, packaged as `branding/Faraway-Folio-Volume-One.zip`, sent to Andrew for upload to Gumroad (account already created).
+## Status as of 2026-09-15 (morning after overnight run)
+**Three packs are live and selling on Gumroad**, all linked from the site's shop cards:
+- Volume One: Quiet Luxury (6 images, £8) — https://farawayfolio.gumroad.com/l/volume-1, custom landing page
+- Volume Two: Coastal Village (13 images, £10) — https://farawayfolio.gumroad.com/l/haoif
+- Volume Three: Alpine Retreat (13 images, £10) — https://farawayfolio.gumroad.com/l/ysgrf
 
-Earlier in the day, none of this existed despite being identified as the fastest lever from day one — flagged directly by Andrew ("where is the profitability coming in? Really need a push on that"), then actually built rather than re-planned.
+**Volumes Four (Desert Kasbah) and Five (Quiet Garden) are incomplete** — the overnight batch run (`run_all_volumes.sh` via a one-shot launchd job) crashed on both: Volume Four got 1/13 images (`riad-courtyard`) before a ComfyUI network timeout killed the process on `desert-dunes`; Volume Five got 0/13 (crashed on the first image, `zen-garden`). Root cause: the Windows ComfyUI machine went unreachable (likely went to sleep) partway through the run, and `generate_product_pack.py` doesn't catch the resulting `RuntimeError`, so the whole process died instead of skipping ahead. The pipeline is resumable (skips finished images, reuses orphaned raw PNGs) — resuming just needs ComfyUI reachable again, then re-running `generate_product_pack.py --volume content-pipeline/products/volume-{4,5}.json` and publishing via `publish_volume_to_gumroad.py`.
 
-**Quality note**: the first pass used the fast/turbo generation model (same one used for social content) and Andrew correctly called it out as not good enough for a paid product — flatter detail, less texture. Rebuilt using the full (non-turbo) Z-Image model at 30 steps/cfg 4/2MP resolution with a real negative prompt (`content-pipeline/workflow_hq.json`) instead of the 8-step turbo config. The difference is substantial — genuine texture (weathered plaster, cobblestone, fabric wrinkles, atmospheric depth) versus the flatter turbo output. This HQ workflow is now the standard for anything sold, not just social content.
+A duplicate, broken "Volume Two" listing (created by a pre-fix Gumroad publish attempt that failed on a non-square-thumbnail error but still partially created the product) was found and deleted this morning — only the correct Volume Two listing above remains.
 
-- Affiliate links on the site are still placeholder `#` hrefs — no program applied to yet.
+**Upscale technique evaluated and rejected**: tested a hires-fix second pass (`LatentUpscaleBy` + low-denoise second `KSampler`) against the single-pass HQ workflow already in use. Improvement was marginal (slightly more fine texture) for a large time cost (~20-30 min/image vs ~5-8 min). Kept the single-pass HQ workflow as the standard.
+
+- Site's shop cards now link to the three real live packs (previously fictional placeholder products with `#` hrefs) — done 2026-09-15.
+- No affiliate program applied to yet.
 
 ## The plan, in priority order
 
-### 1. Printable wall-art / wallpaper pack — LIVE (pending Andrew's Gumroad upload)
+### 1. Printable wall-art / wallpaper packs — LIVE, 3 of 5 volumes published
 Fastest realistic path: sell the aesthetic itself, not a physical product. No approval process, no waiting on affiliate networks, sells directly to whatever audience the IG/Facebook posts bring in.
 
-- **Product**: "Faraway Folio, Volume One" — 6 curated HQ scenes, print-ready (2:3) + phone wallpaper (9:16) crops. Listing copy ready in `branding/gumroad-listing.md`.
-- **Platform**: Gumroad — account created, waiting on Andrew to upload the ZIP and publish.
-- **Price**: £8 (see listing doc for reasoning).
-- **Path to £2k**: at £8/sale after Gumroad's ~10% fee (~£7.20 net), that's ~280 sales. Realistic only with actual traffic — this product's job is to convert whatever audience the content builds, not to be the sole growth engine.
-- **Next**: once live, replace the site's placeholder "Shop the pick" links with the real Gumroad link, and mention it in IG/FB captions and bio.
+- **Products**: Volumes One–Three live now (see above). Four and Five pending completion (blocked on ComfyUI availability).
+- **Platform**: Gumroad.
+- **Price**: £8 (Volume One, smaller pack) / £10 (Volumes Two+, 13-image packs).
+- **Path to £2k**: at ~£9 net/sale average after Gumroad's fee, that's ~220 sales across all volumes. Realistic only with actual traffic — these products' job is to convert whatever audience the content builds, not to be the sole growth engine.
+- **Next**: finish Volumes Four/Five once ComfyUI is reachable; consider adding them to the site once there's room (currently 3 cards, matching 3 live volumes).
 
 ### 2. Amazon Associates
 Apply once the site has some real traffic (a few weeks of consistent posting). Needs 3 qualifying sales within 180 days to stay approved, so this only starts paying once there's an actual audience clicking through — not a week-one lever.
