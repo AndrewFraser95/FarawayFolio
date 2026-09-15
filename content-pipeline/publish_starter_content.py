@@ -15,6 +15,7 @@ Usage:
 import argparse
 import json
 import os
+import env_loader  # noqa: F401 (loads ../.env into os.environ)
 import subprocess
 import sys
 import time

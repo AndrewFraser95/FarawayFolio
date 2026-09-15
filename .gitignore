@@ -7,4 +7,6 @@ __pycache__/
 .env
 branding/*.zip
 content-pipeline/*-generation.log
+content-pipeline/volumes-45.log
+content-pipeline/starter-run.log
 branding/gumroad-pack-volume-*/_raw/

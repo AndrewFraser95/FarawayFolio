@@ -18,6 +18,7 @@ Setup on the Windows ComfyUI machine:
 import argparse
 import json
 import os
+import env_loader  # noqa: F401 (loads ../.env into os.environ)
 import random
 import time
 import urllib.parse

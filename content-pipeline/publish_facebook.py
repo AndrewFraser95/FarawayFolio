@@ -18,6 +18,7 @@ import argparse
 import json
 import mimetypes
 import os
+import env_loader  # noqa: F401 (loads ../.env into os.environ)
 import random
 import string
 import urllib.parse
