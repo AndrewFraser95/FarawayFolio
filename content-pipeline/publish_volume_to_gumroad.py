@@ -55,6 +55,17 @@ def publish_volume(spec_path, pack_dir, zip_path):
         raise RuntimeError(f"No print images found in {print_dir}")
     cover_image = cover_candidates[0]
 
+    # Gumroad requires a square thumbnail specifically (the cover image itself
+    # can be non-square) — center-crop a square version from the cover.
+    thumbnail_image = os.path.join(pack_dir, "_thumbnail.jpg")
+    dim = subprocess.run(["sips", "-g", "pixelHeight", "-g", "pixelWidth", cover_image],
+                          check=True, capture_output=True, text=True).stdout
+    height = int([l for l in dim.splitlines() if "pixelHeight" in l][0].split(":")[1].strip())
+    width = int([l for l in dim.splitlines() if "pixelWidth" in l][0].split(":")[1].strip())
+    side = min(height, width)
+    subprocess.run(["sips", "-c", str(side), str(side), cover_image, "--out", thumbnail_image],
+                    check=True, capture_output=True)
+
     price = spec.get("price", "£10").replace("£", "")
     n = len(spec["images"])
     custom_summary = f"{n} aspirational {spec['theme'].lower()} travel scenes for your walls and your phone."
@@ -69,7 +80,7 @@ def publish_volume(spec_path, pack_dir, zip_path):
         "--file", zip_path,
         "--file-name", os.path.basename(zip_path),
         "--cover-image", cover_image,
-        "--thumbnail", cover_image,
+        "--thumbnail", thumbnail_image,
         "--category", "design/wallpapers",
         "--description", build_description(spec),
         "--custom-summary", custom_summary,
