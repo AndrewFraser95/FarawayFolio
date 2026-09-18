@@ -33,3 +33,15 @@ Apply once the site has some real traffic (a few weeks of consistent posting). N
 
 ### 3. LTK / ShopMy
 Usually gate on engagement/follower thresholds for brand-new accounts. Apply once IG has a consistent posting history to point to.
+
+### 4. Hotel affiliate content (Booking.com Partner Program) — in progress, not yet monetized
+Andrew asked 2026-09-17 to expand into "recommended hotels" content, ideally ones with affiliate deals. Real hotel data (names, ratings, prices, facilities) is sourced via the Booking.com MCP connector available in Claude Code sessions — this gives factually accurate hotel content instead of hallucinated hotel names, which matters since a wrong hotel name/claim in paid-feeling content is a worse trust problem than a generic scenery post.
+
+**Important catch, found immediately**: the connector's returned booking URLs embed `aid=8132308` — that's Claude's own Booking.com affiliate id, not Andrew's. Using those links as-is would send any commission to Anthropic's account, not Faraway Folio's. Fixed by using plain (non-affiliate) booking.com links in hotel content until Andrew has his own affiliate id, at which point his `aid=` gets substituted into the same links.
+
+**To get a real affiliate id**, Andrew needs to apply himself (business/tax details required, not something Claude can submit on his behalf):
+- Booking.com's own affiliate program is run through their **Partner Hub** (partner.booking.com) — search for "Booking.com affiliate program" / "Booking.com Partner Hub" to find the current signup flow, since Booking.com restructures this periodically.
+- Alternatively, Booking.com's affiliate program is also carried by third-party affiliate networks (Awin and CJ Affiliate both have listed it historically) — applying through one of those may be faster for a new/small site, worth comparing once Andrew is ready to apply.
+- Needs: a live site with real content (farawayfolio.com already qualifies), business/payment details, and agreement to their terms.
+
+**Until that id exists**: hotel content posts with real hotel facts and plain links, clearly not yet monetized — better to build genuine content/audience now than wait on the application before posting anything.

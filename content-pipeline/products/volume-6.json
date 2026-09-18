@@ -1,25 +1,99 @@
 {
   "name": "Faraway Folio, Volume Six",
   "theme": "Tuscan Countryside",
-  "price": "£10",
+  "price": "\u00a310",
   "images": [
-    {"id": "vineyard-rows", "prompt": "Rolling vineyard rows at golden hour, soft warm light, distant hilltop villa, quiet luxury travel aesthetic"},
-    {"id": "hilltop-village", "prompt": "A Tuscan hilltop village skyline at dusk, warm stone buildings, cypress trees, soft golden light, minimalist composition"},
-    {"id": "cypress-lane", "prompt": "A winding gravel road lined with tall cypress trees, warm afternoon light, rolling hills in the distance, quiet luxury travel aesthetic"},
-    {"id": "olive-grove-terrace", "prompt": "An olive grove terrace with a stone farmhouse wall, dappled shade, warm midday light, minimalist quiet luxury composition"},
-    {"id": "villa-courtyard", "prompt": "A quiet stone villa courtyard with potted lemon trees, warm afternoon light, soft shadows, quiet luxury travel aesthetic"},
-    {"id": "wine-cellar-barrels", "prompt": "A rustic stone wine cellar with wooden barrels, warm lamplight, quiet luxury travel aesthetic, minimalist composition"},
-    {"id": "stone-farmhouse", "prompt": "A weathered stone farmhouse exterior surrounded by vineyards, golden hour light, quiet luxury travel aesthetic"},
-    {"id": "piazza-fountain", "prompt": "A quiet Tuscan piazza with a small stone fountain, warm terracotta buildings, soft afternoon light, empty of people"},
-    {"id": "terracotta-rooftops", "prompt": "A view over terracotta rooftops of a hill town, soft haze, distant rolling hills, warm golden light, minimalist composition"},
-    {"id": "sunflower-field", "prompt": "A field of sunflowers at golden hour, distant hilltop village, warm soft light, quiet luxury travel aesthetic"},
-    {"id": "trattoria-terrace", "prompt": "An empty trattoria terrace table set with linen and a wine glass, warm evening light, soft bokeh, quiet luxury travel aesthetic"},
-    {"id": "stone-archway-view", "prompt": "A stone archway framing a view of rolling Tuscan hills, warm golden light, minimalist quiet luxury composition"},
-    {"id": "market-morning", "prompt": "A quiet Tuscan market street at early morning, warm stone buildings, empty stalls, soft light, quiet luxury travel aesthetic"},
-    {"id": "lavender-rows", "prompt": "Rows of lavender in soft evening light, distant stone farmhouse, warm muted tones, minimalist composition"},
-    {"id": "hillside-vineyard-mist", "prompt": "A hillside vineyard in soft morning mist, warm golden light breaking through, quiet luxury travel aesthetic"},
-    {"id": "wooden-shutters-detail", "prompt": "Weathered wooden shutters on a stone wall, potted geraniums on the sill, warm afternoon light, minimalist composition"},
-    {"id": "countryside-road", "prompt": "A single-lane countryside road curving through golden hills, cypress trees, warm late-afternoon light, quiet luxury travel aesthetic"},
-    {"id": "stone-well-courtyard", "prompt": "An old stone well in a quiet villa courtyard, warm dappled light, soft shadows, quiet luxury minimalist composition"}
+    {
+      "id": "vineyard-rows",
+      "prompt": "Rolling vineyard rows at golden hour, soft warm light, distant hilltop villa, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "hilltop-village",
+      "prompt": "A Tuscan hilltop village skyline at dusk, warm stone buildings, cypress trees, soft golden light, minimalist composition"
+    },
+    {
+      "id": "cypress-lane",
+      "prompt": "A winding gravel road lined with tall cypress trees, warm afternoon light, rolling hills in the distance, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "olive-grove-terrace",
+      "prompt": "An olive grove terrace with a stone farmhouse wall, dappled shade, warm midday light, minimalist quiet luxury composition"
+    },
+    {
+      "id": "villa-courtyard",
+      "prompt": "A quiet stone villa courtyard with potted lemon trees, warm afternoon light, soft shadows, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "wine-cellar-barrels",
+      "prompt": "A rustic stone wine cellar with wooden barrels, warm lamplight, quiet luxury travel aesthetic, minimalist composition"
+    },
+    {
+      "id": "stone-farmhouse",
+      "prompt": "A weathered stone farmhouse exterior surrounded by vineyards, golden hour light, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "piazza-fountain",
+      "prompt": "A quiet Tuscan piazza with a small stone fountain, warm terracotta buildings, soft afternoon light, empty of people"
+    },
+    {
+      "id": "terracotta-rooftops",
+      "prompt": "A view over terracotta rooftops of a hill town, soft haze, distant rolling hills, warm golden light, minimalist composition"
+    },
+    {
+      "id": "sunflower-field",
+      "prompt": "A field of sunflowers at golden hour, distant hilltop village, warm soft light, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "trattoria-terrace",
+      "prompt": "An empty trattoria terrace table set with linen and a wine glass, warm evening light, soft bokeh, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "stone-archway-view",
+      "prompt": "A stone archway framing a view of rolling Tuscan hills, warm golden light, minimalist quiet luxury composition"
+    },
+    {
+      "id": "market-morning",
+      "prompt": "A quiet Tuscan market street at early morning, warm stone buildings, empty stalls, soft light, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "lavender-rows",
+      "prompt": "Rows of lavender in soft evening light, distant stone farmhouse, warm muted tones, minimalist composition"
+    },
+    {
+      "id": "hillside-vineyard-mist",
+      "prompt": "A hillside vineyard in soft morning mist, warm golden light breaking through, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "wooden-shutters-detail",
+      "prompt": "Weathered wooden shutters on a stone wall, potted geraniums on the sill, warm afternoon light, minimalist composition"
+    },
+    {
+      "id": "countryside-road",
+      "prompt": "A single-lane countryside road curving through golden hills, cypress trees, warm late-afternoon light, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "stone-well-courtyard",
+      "prompt": "An old stone well in a quiet villa courtyard, warm dappled light, soft shadows, quiet luxury minimalist composition"
+    },
+    {
+      "id": "terrace-view-vines",
+      "prompt": "A stone terrace overlooking vineyard rows at golden hour, single chair, warm quiet light, minimalist quiet luxury composition"
+    },
+    {
+      "id": "olive-branch-detail",
+      "prompt": "Close-up of olive branches against a warm stone wall, soft afternoon light, minimalist quiet luxury composition"
+    },
+    {
+      "id": "tuscan-farmhouse-window",
+      "prompt": "A weathered farmhouse window with wooden shutters, distant vineyard view, warm golden hour light, quiet luxury travel aesthetic"
+    },
+    {
+      "id": "vineyard-sunset-panorama",
+      "prompt": "A wide panorama of Tuscan vineyards at sunset, warm layered light, distant hilltop silhouette, minimalist quiet luxury composition"
+    },
+    {
+      "id": "stone-path-vineyard",
+      "prompt": "A narrow stone path winding through vineyard rows, warm late-afternoon light, soft long shadows, quiet luxury travel aesthetic"
+    }
   ]
 }
