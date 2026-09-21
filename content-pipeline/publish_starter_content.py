@@ -77,8 +77,9 @@ def publish_to_media_repo(local_image_path, post_id, push=True):
     if push:
         git_push(REPO_ROOT)
 
+    # GitHub Pages serves docs/ as the site root, so the public path drops that prefix.
     base_url = os.environ.get("PUBLIC_MEDIA_BASE_URL")
-    public_url = f"{base_url.rstrip('/')}/{rel_path}" if base_url else None
+    public_url = f"{base_url.rstrip('/')}/{os.path.relpath(rel_path, 'docs')}" if base_url else None
     return dest_path, public_url
 
 

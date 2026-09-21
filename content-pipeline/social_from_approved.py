@@ -85,8 +85,9 @@ def commit_and_push(images, group):
     subprocess.run(["git", "-C", REPO_ROOT, "commit", "-m", f"Add approved media: {group}"], check=True)
     git_push(REPO_ROOT)
 
+    # GitHub Pages serves docs/ as the site root, so the public path drops that prefix.
     base_url = os.environ["PUBLIC_MEDIA_BASE_URL"].rstrip("/")
-    public_urls = [f"{base_url}/{rel}" for rel in rel_paths]
+    public_urls = [f"{base_url}/{os.path.relpath(rel, 'docs')}" for rel in rel_paths]
     return dest_paths, public_urls
 
 
