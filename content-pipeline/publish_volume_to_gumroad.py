@@ -23,7 +23,10 @@ def gumroad(*args, json_out=True):
         cmd.append("--json")
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
-        raise RuntimeError(f"gumroad {' '.join(args)} failed: {result.stderr or result.stdout}")
+        # The CLI prints a version-upgrade nag to stderr even on success, which can
+        # mask the real JSON error (also on stdout) if stderr happens to be checked
+        # first -- always show both so a real failure is never hidden behind the nag.
+        raise RuntimeError(f"gumroad {' '.join(args)} failed:\nstdout: {result.stdout}\nstderr: {result.stderr}")
     if json_out:
         return json.loads(result.stdout)
     return result.stdout
@@ -69,7 +72,12 @@ def publish_volume(spec_path, pack_dir, zip_path):
     price = spec.get("price", "£10").replace("£", "")
     n = len(spec["images"])
     custom_summary = f"{n} aspirational {spec['theme'].lower()} travel scenes for your walls and your phone."
-    tags = ["travel", "wall art", "printable", "digital download", "wallpaper", "aesthetic", "quiet luxury", spec["theme"].lower()]
+    # Gumroad caps tags at 20 characters -- truncate at a word boundary rather
+    # than letting a long theme name break the create call outright.
+    theme_tag = spec["theme"].lower()
+    if len(theme_tag) > 20:
+        theme_tag = theme_tag[:20].rsplit(" ", 1)[0]
+    tags = ["travel", "wall art", "printable", "digital download", "wallpaper", "aesthetic", "quiet luxury", theme_tag]
 
     print(f"Creating product: {spec['name']}...")
     create_args = [
